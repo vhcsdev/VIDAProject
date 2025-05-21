@@ -14,5 +14,5 @@ O **VIDA** é um sistema de autenticação baseado em biometria de voz. O projet
 | <img src="https://github.com/IsaacMPereira.png" width="100" alt="Foto"> | Isaac | [@IsaacMPereira](https://github.com/IsaacMPereira) |
 | <img src="https://github.com/Rukkakun.png" width="100" alt="Foto"> | Paulo | [@Rukkakun](https://github.com/Rukkakun) |
 | <img src="https://github.com/EduardoRGS.png" width="100" alt="Foto"> | Eduardo | [@EduardoRGS](https://github.com/EduardoRGS) |
-| <img src="https://github.com/leticia-oliveira.png" width="100" alt="Foto"> | Letícia | [@seu-usuario7](https://github.com/leticia-oliveira) |
+| <img src="https://github.com/leticia-oliveira.png" width="100" alt="Foto"> | Letícia | [@leticia-oliveira](https://github.com/leticia-oliveira) |
 | <img src="https://github.com/gsVieiraaa.png" width="100" alt="Foto"> | Gabriel | [@gsVieiraaa](https://github.com/gsVieiraaa) |
