@@ -86,3 +86,15 @@ else:
 
 #Testing voice embedding
 testing_embedding = extract_embedding(verification, testingVoice)
+
+#Verification
+score = verification.similarity(testing_embedding, secret_embedding)
+
+def similarity(score):
+    prediction = score > -1.75
+    print(f"Score: {score}, Match: {prediction}")
+
+    if(prediction):
+        print("\nValid authentication")
+    else:
+        print("\nInvalid voice")
