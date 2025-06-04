@@ -1,0 +1,25 @@
+services:
+  vida_project_database:
+    image: postgres:latest
+    container_name: vida_project_database
+    environment:
+      POSTGRES_USER: vida_user
+      POSTGRES_PASSWORD: vida_teste_password
+      POSTGRES_DB: vida_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  vida_project_app:
+    image: vida_project_app
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - vida_project_database
+    environment:
+      DATABASE_URL: postgresql+psycopg://vida_user:vida_teste_password@vida_project_database:5432/vida_db
+
+volumes:
+  pgdata:
