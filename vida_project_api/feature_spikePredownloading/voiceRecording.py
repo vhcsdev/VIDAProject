@@ -69,7 +69,7 @@ def extract_embedding(verification, file_path):
     return embedding.squeeze(0)
 
 verification = SpeakerRecognition.from_hparams(
-                        source="speechbrain/spkrec-ecapa-voxceleb",
+                        source="pretrained_models/spkrec",
                         savedir="pretrained_models/spkrec")
 
 #Secret embedding
