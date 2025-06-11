@@ -1,14 +1,14 @@
 import psycopg2
-from sqlalchemy import create_engine, text, String, ForeignKey
+from sqlalchemy import LargeBinary, create_engine, text, String, ForeignKey
 from sqlalchemy import select
 from sqlalchemy.orm import Session, mapped_column, relationship
 from sqlalchemy.orm import sessionmaker, DeclarativeBase, Mapped
 
 #so a memoria local
-#engine = create_engine("sqlite:///:memory:")
+engine = create_engine("sqlite:///:memory:")
 
 #("postgresql+psycopg2://{username}:{password}@{hostname}:{port}/{dbName}")
-engine = create_engine(f"postgresql+psycopg2://postgres:B3das#Mopao@localhost:5432/TesteDaSilva")
+#engine = create_engine(f"postgresql+psycopg2://postgres:B3das#Mopao@localhost:5432/TesteDaSilva")
 
 Session = sessionmaker(engine)
 
@@ -38,7 +38,7 @@ class Voice(Base):
     #mas se for so isso, nao tem nem pra que duas tabelas
     #so um placeholder
     id: Mapped[int] = mapped_column(primary_key=True)
-    voice_module: Mapped[str] = mapped_column(String(30))
+    voice_module: Mapped = mapped_column(LargeBinary)
 
     #conexão com a tabela de usuario
     user_id: Mapped[int] = mapped_column(ForeignKey("user_account.id"))
@@ -80,7 +80,7 @@ def add_new_voice(audio, email):
 
         #colocar um limite de quantas instancias de audio o usuario pode cadastrar  
         elif len(session.execute(slct).scalars().first().voice) < 6:
-            print(f"o tal do {session.execute(slct).scalars().first().name} tem {len(session.execute(slct).scalars().first().voice)} audios")
+            #print(f"o tal do {session.execute(slct).scalars().first().name} tem {len(session.execute(slct).scalars().first().voice)} audios")
             slid = session.execute(select(Voice)).scalars().all()
             slid = len(slid)
             v1 = Voice(voice_module = audio, user = session.execute(slct).scalars().first(), id = slid)
@@ -91,19 +91,14 @@ def add_new_voice(audio, email):
 
 # coloquei aqui mais como um placeholder     
 # de novo verifica se o usuario existe ante de autenticar  
-def autentication(audio, email):
+def autentication(email):
     with Session() as session:
         slct = select(User).where(User.email == email)
-        if session.execute(slct).first == None:
+        if session.execute(slct).first() == None:
             print("Usuario não cadastrado")
         else:
-            #processo de autenticação aí n sei como vai ser
-            #tava pensando de ir procurando em todas as vozes
-            #conectadas ao usuario ate achar um par
-            #for voice_db in slct.voice:
-            #   if audio == voice_db.voice_module:
-            #       cadastrado lets go
-            pass
+            fos = session.execute(slct).scalars().first().voice
+            return fos
 
 
 
@@ -124,6 +119,11 @@ def autentication(audio, email):
 # add_new_voice(audio="voz 2 bedaso", email="Bedas123@gmail.com")
 # add_new_voice(audio="voz do fontaine", email="fotin123@gmail.com")
 # add_new_voice(audio="voz do dibas", email="Endibaberl@lascapedra.com")
+
+# krai = autentication(email="Bedas123@gmail.com")
+
+# for i in krai:
+#     print(i.voice_module)
 
 # with Session() as session:
 #     slct = select(User).where(User.name == "Bedas")
