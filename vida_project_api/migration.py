@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase, Mapped
 
 #so a memoria local
 engine = create_engine("sqlite:///:memory:")
+#engine = create_engine("sqlite:///vida_project.db")
 
 #("postgresql+psycopg2://{username}:{password}@{hostname}:{port}/{dbName}")
 #engine = create_engine(f"postgresql+psycopg2://postgres:B3das#Mopao@localhost:5432/TesteDaSilva")
@@ -38,7 +39,7 @@ class Voice(Base):
     #mas se for so isso, nao tem nem pra que duas tabelas
     #so um placeholder
     id: Mapped[int] = mapped_column(primary_key=True)
-    voice_module: Mapped = mapped_column(LargeBinary)
+    voice_module: Mapped[bytes] = mapped_column(LargeBinary)
 
     #conexão com a tabela de usuario
     user_id: Mapped[int] = mapped_column(ForeignKey("user_account.id"))
@@ -105,7 +106,7 @@ def autentication(email):
 # so pra testar e ver se ta tudo nos conformes
 # set_new_user(name="Bedas", email="Bedas123@gmail.com")
 # set_new_user(name="fotaine", email="fotin123@gmail.com")
-# set_new_user(name="Dibas", email="Endibaberl@lascapedra.com")
+set_new_user(name="Dibas", email="Endibaberl@lascapedra.com")
 # with Session() as session:
 #     stmt = select(User)
 #     res = session.execute(stmt)
