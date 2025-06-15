@@ -7,6 +7,10 @@ from speechbrain.inference import SpeakerRecognition
 import torch
 from datetime import datetime
 import warnings
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import migration
 import io
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -32,8 +36,6 @@ def recording(filename):
     frames = []
 
     print(f"Recording duration: {recordingDuration}s")
-    # if(filename == "testingVoice.wav"): print("Testing voice recording")
-    # elif(filename == "secretVoice.wav"): print("Secret voice recording")
 
     aux = 0
     for i in range(0, int(rate / 1024 * recordingDuration)):
@@ -56,6 +58,7 @@ def recording(filename):
         wf.setframerate(rate)
         wf.writeframes(b''.join(frames))
     #audioIput = buffer.getvalue()
+    buffer.seek(0)
     return buffer
     
 
@@ -73,8 +76,8 @@ def extract_embedding(verification, file_path):
     #transforma a variavel em uma tupla, associando waveform com o tensor do audio e sample_rate com a taxa em hz
     #deve funcionar do msm jeito mas agora sem precisar criar um arquivo com o audio
     waveform, sample_rate = torchaudio.load(file_path)
-    signal = waveform
-    signal = signal.unsqueeze(0)
+    signal = waveform.squeeze(0).unsqueeze(0) 
+    #signal = signal.unsqueeze(0)
     lengths = torch.tensor([1.0])
 
     embedding = verification.encode_batch(signal, lengths)
@@ -107,23 +110,33 @@ def verify_voice(verification, userEmail):
     
     #acho q o ideal seria pegar uma media de todos os scores
     score = 0
-    for v in secretVoices:
-        score += verification.similarity(newVoice, v.voice_module)
-    score = score/len(secretVoices)
-    similarity(score)
+    if secretVoices is not None and len(secretVoices) > 0:
+        for v in secretVoices:
+            veryVoice = torch.load(io.BytesIO(v.voice_module))
+            print(veryVoice)
+            print("---------------------------------------------")
+            print(newVoice)
+            score += verification.similarity(newVoice, veryVoice)
+        score = score/len(secretVoices)
+        similarity(score)
+    else:
+        print("No secret voices found for this user.")
 
 def new_secret_voice(verification, userEmail):
    newVoice = recording("dá pra tirar o file name eu acho")
-   extract_embedding(verification, newVoice)
+   newVoice = extract_embedding(verification, newVoice)
+   
    #salva la no banco de dados
-   migration.add_new_voice(newVoice, userEmail)
+   bufferTensor = io.BytesIO()
+   torch.save(newVoice, bufferTensor)
+   byteTensor = bufferTensor.getvalue()
+   migration.add_new_voice(byteTensor, userEmail)
     
 
-# #Verification
-# score = verification.similarity(testing_embedding, secret_embedding)
+
 
 def similarity(score):
-    prediction = score > -1.75
+    prediction = score >0.7
     print(f"Score: {score}, Match: {prediction}\n")
 
     if(prediction):
@@ -132,3 +145,15 @@ def similarity(score):
         print("Invalid voice")
 
 # similarity(score)
+
+#teste basico
+# s = 0
+# while s != 90:
+#     s = int(input("bota algo ai"))
+#     print(s)
+#     if s == 0:
+#         print("gravar")
+#         new_secret_voice(verification, "Endibaberl@lascapedra.com")
+#     elif s == 1:
+#         print("verificar")
+#         verify_voice(verification, "Endibaberl@lascapedra.com")
