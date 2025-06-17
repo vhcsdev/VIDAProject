@@ -89,7 +89,9 @@ def add_new_voice(audio, email):
             # print(f"o tal do {session.execute(slct).scalars().first().name} tem {len(session.execute(slct).scalars().first().voice)} audios")
             slid = session.execute(select(Voice)).scalars().all()
             slid = len(slid)
-            v1 = Voice(voice_module=audio, user=session.execute(slct).scalars().first(), id=slid)
+            v1 = Voice(voice_module=audio, 
+                       user=session.execute(slct).scalars().first(), 
+                       id=slid)
             session.add(v1)
         else:
             print("Limite de audios alcançado")
