@@ -52,7 +52,8 @@ class Voice(Base):
 Base.metadata.create_all(engine)
 
 
-# verifica se o email ja nao está cadastrado e se n estiver cria um novo usuario na tabela
+# verifica se o email ja nao está cadastrado e se n estiver cria um novo
+# usuario na tabela
 def set_new_user(name, email):
     # abre uma conexão com o banco de dados
     # o session.begin() garante que será comitado quando a tarefa acabar
@@ -71,9 +72,10 @@ def set_new_user(name, email):
 
 
 # caso o usuario possa ter varias instancias de audio para comparar
-# verificar se o email está cadastrado, salva o arquivo de audio no banco de dados
-# e conecta com a tabela de usuario
+# verificar se o email está cadastrado, salva o arquivo de audio no
+# banco de dados e conecta com a tabela de usuario
 def add_new_voice(audio, email):
+    audioRegisLimit = 6
     # praticamente o mesmo processo do set_new_user()
     with Session() as session, session.begin():
         slct = select(User).where(User.email == email)
@@ -81,8 +83,9 @@ def add_new_voice(audio, email):
         if session.execute(slct).first() == None:
             print("Usuario não cadastrado")
 
-        # colocar um limite de quantas instancias de audio o usuario pode cadastrar
-        elif len(session.execute(slct).scalars().first().voice) < 6:
+        # colocar um limite de quantas instancias de audio o usuario pode
+        # cadastrar
+        elif len(session.execute(slct).scalars().first().voice) < audioRegisLimit:
             # print(f"o tal do {session.execute(slct).scalars().first().name} tem {len(session.execute(slct).scalars().first().voice)} audios")
             slid = session.execute(select(Voice)).scalars().all()
             slid = len(slid)

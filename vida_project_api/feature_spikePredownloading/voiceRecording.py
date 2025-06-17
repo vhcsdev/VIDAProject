@@ -74,8 +74,10 @@ def recording(filename):
 def extract_embedding(verification, file_path):
     # signal = verification.load_audio(file_path)
 
-    # transforma a variavel em uma tupla, associando waveform com o tensor do audio e sample_rate com a taxa em hz
-    # deve funcionar do msm jeito mas agora sem precisar criar um arquivo com o audio
+    # transforma a variavel em uma tupla, associando waveform com o tensor do
+    # audio e sample_rate com a taxa em hz
+    # deve funcionar do msm jeito mas agora sem precisar criar um arquivo com
+    # o audio
     waveform, sample_rate = torchaudio.load(file_path)
     signal = waveform.squeeze(0).unsqueeze(0)
     # signal = signal.unsqueeze(0)
@@ -120,25 +122,26 @@ def verify_voice(verification, userEmail):
             print("---------------------------------------------")
             print(newVoice)
             score += verification.similarity(newVoice, veryVoice)
-        score = score / len(secretVoices)
+        score /= len(secretVoices)
         similarity(score)
     else:
         print("No secret voices found for this user.")
 
 
 def new_secret_voice(verification, userEmail):
-   newVoice = recording("dá pra tirar o file name eu acho")
-   newVoice = extract_embedding(verification, newVoice)
+    newVoice = recording("dá pra tirar o file name eu acho")
+    newVoice = extract_embedding(verification, newVoice)
 
-   # salva la no banco de dados
-   bufferTensor = io.BytesIO()
-   torch.save(newVoice, bufferTensor)
-   byteTensor = bufferTensor.getvalue()
-   migration.add_new_voice(byteTensor, userEmail)
+    # salva la no banco de dados
+    bufferTensor = io.BytesIO()
+    torch.save(newVoice, bufferTensor)
+    byteTensor = bufferTensor.getvalue()
+    migration.add_new_voice(byteTensor, userEmail)
 
+min_value = 0.7
 
 def similarity(score):
-    prediction = score > 0.7
+    prediction = score > min_value
     print(f"Score: {score}, Match: {prediction}\n")
 
     if (prediction):
