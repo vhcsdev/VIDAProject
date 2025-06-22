@@ -2,25 +2,20 @@ import os
 import sys
 import warnings
 import wave
-
 import pyaudio
 import torch
 import torchaudio
 from speechbrain.inference import SpeakerRecognition
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import io
-
 import migration
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-
 # testingVoice = "testingVoice.wav"
 # secretVoice = "secretVoice.wav"
 
-# Recording function
-def recording(filename):
+def recording(filename): #Da pra tirar o file name?
     format = pyaudio.paInt16
     channel = 1
     rate = 44100
@@ -58,56 +53,23 @@ def recording(filename):
         wf.setsampwidth(p.get_sample_size(format))
         wf.setframerate(rate)
         wf.writeframes(b''.join(frames))
-    # audioIput = buffer.getvalue()
     buffer.seek(0)
     return buffer
 
-
-# #Check if secret .wav recording exists
-# arquivo = Path("secretVoice.wav")
-# if(not arquivo.exists() and not arquivo.is_file()):
-#     recording(secretVoice)
-
-# recording(testingVoice)
-
-# Extract embedding from a .wav audio
 def extract_embedding(verification, file_path):
-    # signal = verification.load_audio(file_path)
-
-    # transforma a variavel em uma tupla, associando waveform com o tensor do
-    # audio e sample_rate com a taxa em hz
-    # deve funcionar do msm jeito mas agora sem precisar criar um arquivo com
-    # o audio
     waveform, sample_rate = torchaudio.load(file_path)
     signal = waveform.squeeze(0).unsqueeze(0)
-    # signal = signal.unsqueeze(0)
     lengths = torch.tensor([1.0])
 
     embedding = verification.encode_batch(signal, lengths)
     return embedding.squeeze(0)
 
-
 verification = SpeakerRecognition.from_hparams(
                         source="pretrained_models/spkrec",
                         savedir="pretrained_models/spkrec")
 
-# #Secret embedding
-# embedding_path = Path("embeddings/secret_embedding.pt")
-# if not embedding_path.exists():
-#     secret_embedding = extract_embedding(verification, secretVoice)
-
-#     embedding_path.parent.mkdir(parents=True, exist_ok=True)
-
-#     torch.save(secret_embedding, embedding_path)
-# else:
-#     secret_embedding = torch.load(embedding_path)
-
-# #Testing voice embedding
-# testing_embedding = extract_embedding(verification, testingVoice)
-
-
 def verify_voice(verification, userEmail):
-    newVoice = recording("dá pra tirar o file name eu acho")
+    newVoice = recording() #Da pra tirar o file name?
     newVoice = extract_embedding(verification, newVoice)
 
     # pega uma serie de vozes desse usuario do banco de dados
@@ -127,9 +89,8 @@ def verify_voice(verification, userEmail):
     else:
         print("No secret voices found for this user.")
 
-
 def new_secret_voice(verification, userEmail):
-    newVoice = recording("dá pra tirar o file name eu acho")
+    newVoice = recording() #Da pra tirar o file name?
     newVoice = extract_embedding(verification, newVoice)
 
     # salva la no banco de dados
@@ -139,7 +100,6 @@ def new_secret_voice(verification, userEmail):
     migration.add_new_voice(byteTensor, userEmail)
 
 min_value = 0.7
-
 def similarity(score):
     prediction = score > min_value
     print(f"Score: {score}, Match: {prediction}\n")
