@@ -83,14 +83,14 @@ def add_new_voice(audio, email):
         if session.execute(slct).first() == None:
             print("Usuario não cadastrado")
 
-        # colocar um limite de quantas instancias de audio o usuario pode
-        # cadastrar
+        # colocar um limite de quantas instancias de audio o usuario 
+        # pode cadastrar
         elif len(session.execute(slct).scalars().first().voice) < audioRegisLimit:
             # print(f"o tal do {session.execute(slct).scalars().first().name} tem {len(session.execute(slct).scalars().first().voice)} audios")
             slid = session.execute(select(Voice)).scalars().all()
             slid = len(slid)
-            v1 = Voice(voice_module=audio, 
-                       user=session.execute(slct).scalars().first(), 
+            v1 = Voice(voice_module=audio,
+                       user=session.execute(slct).scalars().first(),
                        id=slid)
             session.add(v1)
         else:

@@ -2,12 +2,15 @@ import os
 import sys
 import warnings
 import wave
+
 import pyaudio
 import torch
 import torchaudio
 from speechbrain.inference import SpeakerRecognition
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import io
+
 import migration
 
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -15,7 +18,8 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 # testingVoice = "testingVoice.wav"
 # secretVoice = "secretVoice.wav"
 
-def recording(filename): #Da pra tirar o file name?
+
+def recording(filename):  # Da pra tirar o file name?
     format = pyaudio.paInt16
     channel = 1
     rate = 44100
@@ -56,6 +60,7 @@ def recording(filename): #Da pra tirar o file name?
     buffer.seek(0)
     return buffer
 
+
 def extract_embedding(verification, file_path):
     waveform, sample_rate = torchaudio.load(file_path)
     signal = waveform.squeeze(0).unsqueeze(0)
@@ -64,12 +69,14 @@ def extract_embedding(verification, file_path):
     embedding = verification.encode_batch(signal, lengths)
     return embedding.squeeze(0)
 
+
 verification = SpeakerRecognition.from_hparams(
                         source="pretrained_models/spkrec",
                         savedir="pretrained_models/spkrec")
 
+
 def verify_voice(verification, userEmail):
-    newVoice = recording() #Da pra tirar o file name?
+    newVoice = recording()  # Da pra tirar o file name?
     newVoice = extract_embedding(verification, newVoice)
 
     # pega uma serie de vozes desse usuario do banco de dados
@@ -89,8 +96,9 @@ def verify_voice(verification, userEmail):
     else:
         print("No secret voices found for this user.")
 
+
 def new_secret_voice(verification, userEmail):
-    newVoice = recording() #Da pra tirar o file name?
+    newVoice = recording()  # Da pra tirar o file name?
     newVoice = extract_embedding(verification, newVoice)
 
     # salva la no banco de dados
@@ -99,7 +107,10 @@ def new_secret_voice(verification, userEmail):
     byteTensor = bufferTensor.getvalue()
     migration.add_new_voice(byteTensor, userEmail)
 
+
 min_value = 0.7
+
+
 def similarity(score):
     prediction = score > min_value
     print(f"Score: {score}, Match: {prediction}\n")
