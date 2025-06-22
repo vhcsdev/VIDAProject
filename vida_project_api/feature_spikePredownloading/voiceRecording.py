@@ -15,10 +15,6 @@ import migration
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-# testingVoice = "testingVoice.wav"
-# secretVoice = "secretVoice.wav"
-
-
 def recording(filename):  # Da pra tirar o file name?
     format = pyaudio.paInt16
     channel = 1
