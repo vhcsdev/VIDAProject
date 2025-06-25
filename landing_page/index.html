@@ -1,0 +1,307 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <title>VIDA Project - Autenticação Biométrica por Voz</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              'hammersmith': ['Hammersmith One', 'sans-serif'],
+              'poppins': ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              'primary': '#184363',
+              'secondary': '#0F1419',
+              'accent': '#5BA6DB',
+              'dark': {
+                '50': '#F9FAFB',
+                '100': '#F3F4F6',
+                '200': '#E5E7EB',
+                '800': '#0A0E14',
+                '900': '#050810',
+                '950': '#020408'
+              }
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-in-out',
+              'slide-up': 'slideUp 0.5s ease-out',
+              'float': 'float 6s ease-in-out infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body background="assets/old_background.png" class="bg-cover bg-center bg-no-repeat">
+    <div
+      class="relative flex size-full min-h-screen flex-col bg-gradient-to-br from-dark-900/95 via-dark-800/90 to-dark-950/95 backdrop-blur-sm justify-between group/design-root overflow-x-hidden"
+      style='font-family: "Hammersmith One", sans-serif;'
+    >
+      <div>
+        <div class="@container">
+          <div class="@[480px]:p-4">
+            <div
+              class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-lg items-start justify-end px-6 pb-10 @[480px]:px-10"
+              style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("assets/background.png");'
+            >
+              <div class="flex flex-col gap-2 text-left animate-slide-up">
+                <h1
+                  class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] font-hammersmith"
+                >
+                  VIDA Project
+                </h1>
+                <h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal font-poppins">
+                  VIDA é uma plataforma inovadora de autenticação biométrica baseada em reconhecimento de voz. Oferece uma maneira segura e fácil de usar para verificar a
+                  identidade usando padrões de voz únicos.
+                </h2>
+              </div>
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary hover:bg-primary/80 text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] transition-all duration-300 hover:scale-105 shadow-lg animate-float font-hammersmith"
+              >
+                <span class="truncate">Teste agora!</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-5 font-hammersmith">Recursos</h2>
+        <div class="flex flex-col gap-10 px-6 py-10 @container">
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
+              <h1
+                class="text-white tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px] font-hammersmith"
+              >
+                Principais Recursos
+              </h1>
+              <p class="text-slate-300 text-base font-normal leading-normal max-w-[720px] font-poppins">
+                VIDA oferece um conjunto abrangente de recursos para aprimorar a segurança e a experiência do usuário.
+              </p>
+            </div>
+            <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary hover:bg-primary/80 text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] w-fit transition-all duration-300 hover:scale-105 shadow-lg font-hammersmith"
+            >
+              <span class="truncate">Explorar Recursos</span>
+            </button>
+          </div>
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-0">
+            <div class="flex flex-1 gap-3 rounded-lg border border-accent bg-[#11192B]/80 backdrop-blur-sm p-4 flex-col hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+              <div class="text-accent" data-icon="Microphone" data-size="24px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M128,176a48.05,48.05,0,0,0,48-48V64a48,48,0,0,0-96,0v64A48.05,48.05,0,0,0,128,176ZM96,64a32,32,0,0,1,64,0v64a32,32,0,0,1-64,0Zm40,143.6V232a8,8,0,0,1-16,0V207.6A80.11,80.11,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0A80.11,80.11,0,0,1,136,207.6Z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h2 class="text-white text-base font-bold leading-tight font-hammersmith">Cadastro de Voz</h2>
+                <p class="text-slate-400 text-sm font-normal leading-normal font-poppins">Cadastre usuários capturando seus padrões de voz únicos.</p>
+              </div>
+            </div>
+            <div class="flex flex-1 gap-3 rounded-lg border border-accent bg-[#11192B]/80 backdrop-blur-sm p-4 flex-col hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+              <div class="text-accent" data-icon="Lock" data-size="24px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h2 class="text-white text-base font-bold leading-tight font-hammersmith">Autenticação</h2>
+                <p class="text-slate-400 text-sm font-normal leading-normal font-poppins">Autentique usuários de forma segura usando reconhecimento de voz.</p>
+              </div>
+            </div>
+            <div class="flex flex-1 gap-3 rounded-lg border border-accent bg-[#11192B]/80 backdrop-blur-sm p-4 flex-col hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+              <div class="text-accent" data-icon="User" data-size="24px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h2 class="text-white text-base font-bold leading-tight font-hammersmith">Gerenciamento de Usuários</h2>
+                <p class="text-slate-400 text-sm font-normal leading-normal font-poppins">Gerencie perfis de usuário e configurações de autenticação.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-5 font-hammersmith">Tecnologias Utilizadas</h2>
+        <div class="flex flex-col gap-10 px-6 py-10 @container">
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
+              <h1
+                class="text-white tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px] font-hammersmith"
+              >
+                Tecnologias Essenciais
+              </h1>
+              <p class="text-slate-300 text-base font-normal leading-normal max-w-[720px] font-poppins">VIDA utiliza tecnologias de ponta para garantir desempenho e segurança robustos.</p>
+            </div>
+            <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary hover:bg-primary/80 text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] w-fit transition-all duration-300 hover:scale-105 shadow-lg font-hammersmith"
+            >
+              <span class="truncate">Saiba Mais</span>
+            </button>
+          </div>
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-0">
+            <div class="flex flex-1 gap-3 rounded-lg border border-accent bg-[#11192B]/80 backdrop-blur-sm p-4 flex-col hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+              <div class="text-accent" data-icon="Code" data-size="24px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h2 class="text-white text-base font-bold leading-tight font-hammersmith">Python</h2>
+                <p class="text-slate-400 text-sm font-normal leading-normal font-poppins">A principal linguagem de programação para desenvolvimento backend.</p>
+              </div>
+            </div>
+            <div class="flex flex-1 gap-3 rounded-lg border border-accent bg-[#11192B]/80 backdrop-blur-sm p-4 flex-col hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+              <div class="text-accent" data-icon="Database" data-size="24px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24C74.17,24,32,48.6,32,80v96c0,31.4,42.17,56,96,56s96-24.6,96-56V80C224,48.6,181.83,24,128,24Zm80,104c0,9.62-7.88,19.43-21.61,26.92C170.93,163.35,150.19,168,128,168s-42.93-4.65-58.39-13.08C55.88,147.43,48,137.62,48,128V111.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64ZM69.61,53.08C85.07,44.65,105.81,40,128,40s42.93,4.65,58.39,13.08C200.12,60.57,208,70.38,208,80s-7.88,19.43-21.61,26.92C170.93,115.35,150.19,120,128,120s-42.93-4.65-58.39-13.08C55.88,99.43,48,89.62,48,80S55.88,60.57,69.61,53.08ZM186.39,202.92C170.93,211.35,150.19,216,128,216s-42.93-4.65-58.39-13.08C55.88,195.43,48,185.62,48,176V159.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64V176C208,185.62,200.12,195.43,186.39,202.92Z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h2 class="text-white text-base font-bold leading-tight font-hammersmith">PostgreSQL</h2>
+                <p class="text-slate-400 text-sm font-normal leading-normal font-poppins">Um banco de dados relacional poderoso para armazenar dados do usuário.</p>
+              </div>
+            </div>
+            <div class="flex flex-1 gap-3 rounded-lg border border-accent bg-[#11192B]/80 backdrop-blur-sm p-4 flex-col hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+              <div class="text-accent" data-icon="Database" data-size="24px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24C74.17,24,32,48.6,32,80v96c0,31.4,42.17,56,96,56s96-24.6,96-56V80C224,48.6,181.83,24,128,24Zm80,104c0,9.62-7.88,19.43-21.61,26.92C170.93,163.35,150.19,168,128,168s-42.93-4.65-58.39-13.08C55.88,147.43,48,137.62,48,128V111.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64ZM69.61,53.08C85.07,44.65,105.81,40,128,40s42.93,4.65,58.39,13.08C200.12,60.57,208,70.38,208,80s-7.88,19.43-21.61,26.92C170.93,115.35,150.19,120,128,120s-42.93-4.65-58.39-13.08C55.88,99.43,48,89.62,48,80S55.88,60.57,69.61,53.08ZM186.39,202.92C170.93,211.35,150.19,216,128,216s-42.93-4.65-58.39-13.08C55.88,195.43,48,185.62,48,176V159.36c17.06,15,46.23,24.64,80,24.64s62.94-9.68,80-24.64V176C208,185.62,200.12,195.43,186.39,202.92Z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h2 class="text-white text-base font-bold leading-tight font-hammersmith">Flask</h2>
+                <p class="text-slate-400 text-sm font-normal leading-normal font-poppins">Um framework web leve para construir a API.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-5 font-hammersmith">Início Rápido</h2>
+        <p class="text-slate-300 text-base font-normal leading-normal pb-3 pt-1 px-6 font-poppins">Siga estes passos para colocar o VIDA em funcionamento rapidamente:</p>
+        <div class="flex items-center gap-4 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg mx-6 px-4 min-h-14 hover:bg-[#11192B] transition-all duration-300"><p class="text-white text-base font-normal leading-normal flex-1 truncate font-poppins">Clone o repositório</p></div>
+        <div class="flex items-center gap-4 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg mx-6 mt-2 px-4 min-h-14 hover:bg-[#11192B] transition-all duration-300"><p class="text-white text-base font-normal leading-normal flex-1 truncate font-poppins">Instale as dependências</p></div>
+        <div class="flex items-center gap-4 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg mx-6 mt-2 px-4 min-h-14 hover:bg-[#11192B] transition-all duration-300">
+          <p class="text-white text-base font-normal leading-normal flex-1 truncate font-poppins">Configure o banco de dados</p>
+        </div>
+        <div class="flex items-center gap-4 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg mx-6 mt-2 mb-4 px-4 min-h-14 hover:bg-[#11192B] transition-all duration-300"><p class="text-white text-base font-normal leading-normal flex-1 truncate font-poppins">Execute a aplicação</p></div>
+        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-5 font-hammersmith">Documentação</h2>
+        <p class="text-slate-300 text-base font-normal leading-normal pb-3 pt-1 px-6 font-poppins">
+          Documentação abrangente está disponível para guiá-lo na configuração, uso e personalização do VIDA.
+        </p>
+        <div class="flex px-6 py-3 justify-start">
+          <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-dark-800/50 hover:bg-dark-800 border border-accent text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 hover:scale-105 font-hammersmith"
+          >
+            <span class="truncate">Ver Documentação</span>
+          </button>
+        </div>
+        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-5 font-hammersmith">Como Contribuir</h2>
+        <p class="text-slate-300 text-base font-normal leading-normal pb-3 pt-1 px-6 font-poppins">
+          Agradecemos contribuições da comunidade. Seja para correções de bugs, novos recursos ou melhorias na documentação, sua ajuda é valorizada.
+        </p>
+        <div class="flex px-6 py-3 justify-start">
+          <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-dark-800/50 hover:bg-dark-800 border border-accent text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 hover:scale-105 font-hammersmith"
+          >
+            <span class="truncate">Contribuir</span>
+          </button>
+        </div>
+        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-5 font-hammersmith">Squad 13 - Equipe de Desenvolvimento</h2>
+        <p class="text-slate-300 text-base font-normal leading-normal pb-3 pt-1 px-6 font-poppins">
+          VIDA é desenvolvido e mantido por uma equipe dedicada de engenheiros apaixonados por segurança e inovação.
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 px-6 mb-8">
+          <div class="flex flex-col items-center gap-3 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg p-6 hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="https://github.com/osakareaper" target="_blank" class="flex flex-col items-center gap-2">
+              <img src="https://github.com/osakareaper.png" alt="Marcus" class="w-20 h-20 rounded-full border-2 border-accent hover:border-white transition-colors duration-300"/>
+              <p class="text-white text-base font-medium leading-normal text-center font-hammersmith">Marcus</p>
+            </a>
+          </div>
+          <div class="flex flex-col items-center gap-3 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg p-6 hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="https://github.com/vhcsdev" target="_blank" class="flex flex-col items-center gap-2">
+              <img src="https://github.com/vhcsdev.png" alt="Victor Hugo" class="w-20 h-20 rounded-full border-2 border-accent hover:border-white transition-colors duration-300"/>
+              <p class="text-white text-base font-medium leading-normal text-center font-hammersmith">Victor Hugo</p>
+            </a>
+          </div>
+          <div class="flex flex-col items-center gap-3 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg p-6 hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="https://github.com/Pablo-R-L" target="_blank" class="flex flex-col items-center gap-2">
+              <img src="https://github.com/Pablo-R-L.png" alt="Pablo" class="w-20 h-20 rounded-full border-2 border-accent hover:border-white transition-colors duration-300"/>
+              <p class="text-white text-base font-medium leading-normal text-center font-hammersmith">Pablo</p>
+            </a>
+          </div>
+          <div class="flex flex-col items-center gap-3 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg p-6 hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="https://github.com/IsaacMPereira" target="_blank" class="flex flex-col items-center gap-2">
+              <img src="https://github.com/IsaacMPereira.png" alt="Isaac" class="w-20 h-20 rounded-full border-2 border-accent hover:border-white transition-colors duration-300"/>
+              <p class="text-white text-base font-medium leading-normal text-center font-hammersmith">Isaac</p>
+            </a>
+          </div>
+          <div class="flex flex-col items-center gap-3 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg p-6 hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="https://github.com/Rukkakun" target="_blank" class="flex flex-col items-center gap-2">
+              <img src="https://github.com/Rukkakun.png" alt="Paulo" class="w-20 h-20 rounded-full border-2 border-accent hover:border-white transition-colors duration-300"/>
+              <p class="text-white text-base font-medium leading-normal text-center font-hammersmith">Paulo</p>
+            </a>
+          </div>
+          <div class="flex flex-col items-center gap-3 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg p-6 hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="https://github.com/EduardoRGS" target="_blank" class="flex flex-col items-center gap-2">
+              <img src="https://github.com/EduardoRGS.png" alt="Eduardo" class="w-20 h-20 rounded-full border-2 border-accent hover:border-white transition-colors duration-300"/>
+              <p class="text-white text-base font-medium leading-normal text-center font-hammersmith">Eduardo</p>
+            </a>
+          </div>
+          <div class="flex flex-col items-center gap-3 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg p-6 hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="https://github.com/leticia-oliveira" target="_blank" class="flex flex-col items-center gap-2">
+              <img src="https://github.com/leticia-oliveira.png" alt="Letícia" class="w-20 h-20 rounded-full border-2 border-accent hover:border-white transition-colors duration-300"/>
+              <p class="text-white text-base font-medium leading-normal text-center font-hammersmith">Letícia</p>
+            </a>
+          </div>
+          <div class="flex flex-col items-center gap-3 bg-[#11192B]/80 backdrop-blur-sm border border-accent rounded-lg p-6 hover:bg-[#11192B] transition-all duration-300 hover:scale-105 shadow-lg">
+            <a href="https://github.com/gsVieiraaa" target="_blank" class="flex flex-col items-center gap-2">
+              <img src="https://github.com/gsVieiraaa.png" alt="Gabriel" class="w-20 h-20 rounded-full border-2 border-accent hover:border-white transition-colors duration-300"/>
+              <p class="text-white text-base font-medium leading-normal text-center font-hammersmith">Gabriel</p>
+            </a>
+          </div>
+        </div>
+        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-5 font-hammersmith">Licença</h2>
+        <p class="text-slate-300 text-base font-normal leading-normal pb-3 pt-1 px-6 font-poppins">VIDA é licenciado sob a Licença MIT. Consulte o arquivo LICENSE para mais detalhes.</p>
+        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-5 font-hammersmith">Agradecimentos</h2>
+        <p class="text-slate-300 text-base font-normal leading-normal pb-3 pt-1 px-6 font-poppins">
+          Gostaríamos de agradecer a todos os colaboradores e apoiadores que ajudaram a tornar o VIDA possível.
+        </p>
+      </div>
+      <div>
+        <footer class="flex flex-col gap-6 px-6 py-10 text-center @container bg-dark-900/50 backdrop-blur-sm border-t border-accent">
+          <p class="text-slate-400 text-base font-normal leading-normal font-poppins">© 2025 VIDA Project. Todos os direitos reservados.</p>
+        </footer>
+        <div class="h-5 bg-dark-900"></div>
+      </div>
+    </div>
+  </body>
+</html>
