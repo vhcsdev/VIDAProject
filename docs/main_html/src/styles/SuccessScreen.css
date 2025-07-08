@@ -1,0 +1,97 @@
+.success-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.success-container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 48px 40px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.success-icon {
+  margin-bottom: 24px;
+}
+
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #10b981;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0 auto;
+  animation: scaleIn 0.5s ease-out;
+}
+
+.success-header {
+  margin-bottom: 32px;
+}
+
+.success-header h1 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.success-header p {
+  color: #64748b;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.welcome-text {
+  color: #10b981 !important;
+  font-weight: 500 !important;
+}
+
+.email-text {
+  color: #6b7280 !important;
+  font-size: 14px !important;
+}
+
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .success-container {
+    padding: 32px 24px;
+    margin: 16px;
+  }
+  
+  .success-header h1 {
+    font-size: 28px;
+  }
+  
+  .checkmark {
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+  }
+}
