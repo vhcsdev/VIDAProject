@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import WelcomeScreen from './components/WelcomeScreen'
-import LoginScreen from './components/LoginScreen'
 import RegisterScreen from './components/RegisterScreen'
 import VoiceLogin from './components/VoiceLogin'
 import VoiceRegistration from './components/VoiceRegistration'
@@ -14,7 +13,6 @@ function App() {
 
   const screenTitles = {
     'welcome': 'Bem-vindo | VIDA',
-    'login': 'Login | VIDA',
     'register': 'Registro | VIDA',
     'voice-login': 'Login por Voz | VIDA',
     'voice-registration': 'Registro de Voz | VIDA',
@@ -52,8 +50,6 @@ function App() {
     switch (currentScreen) {
       case 'welcome':
         return <WelcomeScreen onNavigate={navigateToScreen} />
-      case 'login':
-        return <LoginScreen onNavigate={navigateToScreen} />
       case 'register':
         return <RegisterScreen onNavigate={navigateToScreen} />
       case 'voice-login':

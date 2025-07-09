@@ -10,29 +10,11 @@ const VoiceLogin = ({ onNavigate, onSuccess }) => {
   const [voiceBlob, setVoiceBlob] = useState(null)
   const [isVerifying, setIsVerifying] = useState(false)
   const [toast, setToast] = useState(null)
-  const [step, setStep] = useState('email') // 'email' or 'voice'
+  const [step, setStep] = useState('voice') // Start directly with voice recording
 
   const showToast = (message, type = 'error') => {
     setToast({ message, type })
     setTimeout(() => setToast(null), 5000)
-  }
-
-  const handleEmailSubmit = (e) => {
-    e.preventDefault()
-    
-    if (!email) {
-      showToast('Digite seu endereço de email')
-      return
-    }
-    
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      showToast('Digite um endereço de email válido')
-      return
-    }
-    
-    setStep('voice')
   }
 
   const handleVoiceRecording = (audioBlob) => {
@@ -42,6 +24,11 @@ const VoiceLogin = ({ onNavigate, onSuccess }) => {
   const handleVoiceSubmit = async () => {
     if (!voiceBlob) {
       showToast('Grave sua voz primeiro')
+      return
+    }
+
+    if (!email) {
+      showToast('Digite seu email primeiro')
       return
     }
 
@@ -81,10 +68,7 @@ const VoiceLogin = ({ onNavigate, onSuccess }) => {
     }
   }
 
-  const goBackToEmail = () => {
-    setStep('email')
-    setVoiceBlob(null)
-  }
+
 
   return (
     <div className="voice-login">
@@ -92,102 +76,74 @@ const VoiceLogin = ({ onNavigate, onSuccess }) => {
         <header className="voice-login-header">
           <button 
             className="back-btn"
-            onClick={() => step === 'voice' ? goBackToEmail() : onNavigate('welcome')}
+            onClick={() => onNavigate('welcome')}
             disabled={isVerifying}
           >
             ← Voltar
           </button>
           <h1>Login por Voz</h1>
-          <p>Autentique-se com sua voz</p>
+          <p>Faça login usando sua voz</p>
         </header>
 
-        {step === 'email' && (
-          <section className="email-step">
-            <div className="step-info">
-              <h2>Digite Seu Email</h2>
-              <p>Primeiro, digite o email associado ao seu perfil de voz</p>
-            </div>
-            
-            <form onSubmit={handleEmailSubmit} className="email-form">
-              <FormInput
-                label="Endereço de Email"
-                type="email"
-                name="email"
-                value={email}
-                onChange={(name, value) => setEmail(value)}
-                placeholder="Digite seu email registrado"
-                required
-              />
-              
-              <button type="submit" className="btn btn-primary btn-full">
-                Continuar para Autenticação por Voz
-              </button>
-            </form>
-          </section>
-        )}
+        <section className="voice-step">
+          <div className="step-info">
+            <h2>Autenticação por Voz</h2>
+            <p>Digite seu email e grave sua voz para fazer login</p>
+          </div>
 
-        {step === 'voice' && (
-          <section className="voice-step">
-            <div className="step-info">
-              <h2>Autenticação por Voz</h2>
-              <p>Agora fale claramente para verificar sua identidade</p>
-              <div className="user-info">
-                <strong>Email:</strong> {email}
-              </div>
-            </div>
-            
-            <div className="voice-instructions">
-              <div className="instruction-card">
-                <span className="instruction-icon">🎯</span>
-                <p>Fale claramente e naturalmente</p>
-              </div>
-              <div className="instruction-card">
-                <span className="instruction-icon">🔊</span>
-                <p>Use o mesmo tom do registro</p>
-              </div>
-              <div className="instruction-card">
-                <span className="instruction-icon">🎤</span>
-                <p>Garanta um ambiente silencioso</p>
-              </div>
-            </div>
-            
-            <VoiceRecorder
-              onRecordingComplete={handleVoiceRecording}
-              maxDuration={5}
-              disabled={isVerifying}
+          <div className="email-input">
+            <FormInput
+              label="Email"
+              type="email"
+              name="email"
+              value={email}
+              onChange={(name, value) => setEmail(value)}
+              placeholder="Digite seu email"
+              required
             />
-            
-            <div className="voice-actions">
-              <button 
-                className="btn btn-primary"
-                onClick={handleVoiceSubmit}
-                disabled={!voiceBlob || isVerifying}
-              >
-                {isVerifying ? 'Verificando Voz...' : 'Verificar Voz'}
-              </button>
+          </div>
+          
+          <div className="voice-instructions">
+            <div className="instruction-card">
+              <span className="instruction-icon">🎯</span>
+              <p>Fale claramente e naturalmente</p>
             </div>
-          </section>
-        )}
+            <div className="instruction-card">
+              <span className="instruction-icon">🔊</span>
+              <p>Use o mesmo tom do registro</p>
+            </div>
+            <div className="instruction-card">
+              <span className="instruction-icon">🎤</span>
+              <p>Garanta um ambiente silencioso</p>
+            </div>
+          </div>
+          
+          <VoiceRecorder
+            onRecordingComplete={handleVoiceRecording}
+            maxDuration={5}
+            disabled={isVerifying}
+          />
+          
+          <div className="voice-actions">
+            <button 
+              className="btn btn-primary"
+              onClick={handleVoiceSubmit}
+              disabled={!voiceBlob || !email || isVerifying}
+            >
+              {isVerifying ? 'Verificando Voz...' : 'Fazer Login'}
+            </button>
+          </div>
+        </section>
 
         <footer className="voice-login-footer">
           <p>
-            Não tem um perfil de voz?{' '}
+            Não tem uma conta?{' '}
             <button 
               className="link-btn"
               onClick={() => onNavigate('register')}
               disabled={isVerifying}
             >
               Registre-se aqui
-            </button>
-          </p>
-          <p>
-            Ou use{' '}
-            <button 
-              className="link-btn"
-              onClick={() => onNavigate('login')}
-              disabled={isVerifying}
-            >
-              login tradicional
             </button>
           </p>
         </footer>

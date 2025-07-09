@@ -1,7 +1,9 @@
 import base64
 import hashlib
+import io
 
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, File, UploadFile, Form
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select
 
 from vida_project_api.database import get_session
@@ -13,7 +15,7 @@ from vida_project_api.schemas import (
     VoiceLoginSchema,
     VoiceRegistrationSchema,
 )
-from vida_project_api.voiceRecording import verify_voice_against_stored
+from vida_project_api.voiceRecording import verify_voice_against_stored, verify_voice_against_stored_with_score
 
 MIN_AUDIO_SIZE_BYTES = 1000
 
@@ -21,6 +23,15 @@ app = FastAPI(
     title="VIDA Voice Authentication API",
     description="API para autenticação por voz",
     version="1.0.0",
+)
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -216,3 +227,112 @@ def update_voice(
         "user_id": user.id,
         "username": user.username,
     }
+
+
+# Additional endpoints for frontend compatibility
+
+@app.post("/voice/register", status_code=200)
+def register_voice_multipart(
+    email: str = Form(...),
+    audio_file: UploadFile = File(...),
+    session=Depends(get_session)
+):
+    """Register voice using multipart form data (compatible with frontend)"""
+    # Find user by email
+    user = session.scalar(select(User).where(User.email == email))
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user.voice is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="User already has voice registered."
+        )
+
+    try:
+        # Read audio file and encode to base64
+        audio_content = audio_file.file.read()
+        
+        if len(audio_content) < MIN_AUDIO_SIZE_BYTES:
+            raise HTTPException(
+                status_code=400,
+                detail="Audio file too small. Please record at least 3-5 seconds.",
+            )
+        
+        voice_b64 = base64.b64encode(audio_content).decode('utf-8')
+        
+        # Verify the voice data is valid
+        is_valid = verify_voice_against_stored(
+            voice_b64, None, test_mode=True
+        )
+        
+        user.voice = voice_b64
+        session.commit()
+
+        return {
+            "message": "Voice registered successfully",
+            "user_id": user.id,
+            "username": user.username,
+        }
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Voice registration failed: {str(e)}"
+        )
+
+
+@app.post("/voice/verify", status_code=200)
+def verify_voice_multipart(
+    email: str = Form(...),
+    audio_file: UploadFile = File(...),
+    session=Depends(get_session)
+):
+    """Verify voice using multipart form data (compatible with frontend)"""
+    print(f"DEBUG: Voice verification request for email: {email}")
+    
+    # Find user by email
+    user = session.scalar(select(User).where(User.email == email))
+    if not user:
+        print(f"DEBUG: User not found: {email}")
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user.voice is None:
+        print(f"DEBUG: User {email} has no voice registered")
+        raise HTTPException(
+            status_code=400,
+            detail="User has no voice registered. Please register voice first.",
+        )
+
+    try:
+        # Read audio file and encode to base64
+        audio_content = audio_file.file.read()
+        voice_b64 = base64.b64encode(audio_content).decode('utf-8')
+        
+        print(f"DEBUG: Audio file size: {len(audio_content)} bytes")
+        print(f"DEBUG: Calling verify_voice_against_stored_with_score")
+        
+        # Verify voice against stored voice
+        is_authenticated, confidence_score = verify_voice_against_stored_with_score(
+            voice_b64, user.voice, test_mode=False
+        )
+
+        print(f"DEBUG: Verification result: authenticated={is_authenticated}, score={confidence_score}")
+
+        result = {
+            "verified": is_authenticated,
+            "score": confidence_score,  # Real confidence score from SpeechBrain
+            "user_id": user.id,
+            "username": user.username,
+            "message": "Voice verification successful" if is_authenticated else "Voice verification failed"
+        }
+        
+        print(f"DEBUG: Returning result: {result}")
+        return result
+        
+    except Exception as e:
+        print(f"DEBUG: Exception in voice verification: {e}")
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Voice verification failed: {str(e)}"
+        )

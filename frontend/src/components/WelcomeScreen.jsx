@@ -18,19 +18,13 @@ const WelcomeScreen = ({ onNavigate }) => {
             className="btn btn-primary voice-btn"
             onClick={() => onNavigate('voice-login')}
           >
-            🎤 Login por Voz
-          </button>
-          <button 
-            className="btn btn-secondary"
-            onClick={() => onNavigate('login')}
-          >
-            Login por Email
+            🎤 Fazer Login por Voz
           </button>
           <button 
             className="btn btn-outline"
             onClick={() => onNavigate('register')}
           >
-            Criar Conta
+            Criar Nova Conta
           </button>
         </section>
         
