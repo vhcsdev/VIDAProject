@@ -1,17 +1,22 @@
 from datetime import datetime
+from typing import Optional
 
-from sqlalchemy import func
-from sqlalchemy.orm import registry, Mapped, mapped_column
-
-mapper_registry = registry()
+from sqlalchemy import Text, func
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
-@mapper_registry.mapped_as_dataclass
-class User:
-    __tablename__ = 'users'
+class Base(DeclarativeBase):
+    pass
 
-    id: Mapped[int] = mapped_column(init= False, primary_key=True)
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
-    voice: Mapped[str] = mapped_column(nullable=True)
-    created_at: Mapped[datetime] = mapped_column(init=False, server_default=func.now())
+    password: Mapped[str] = mapped_column()
+    voice: Mapped[Optional[str]] = mapped_column(
+        Text, nullable=True, comment="Base64 encoded voice data"
+    )
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
