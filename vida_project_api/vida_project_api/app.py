@@ -6,6 +6,7 @@ from vida_project_api.models import User
 from vida_project_api.schemas import UserResponseSchema, UserSchema
 from vida_project_api.settings import Settings
 from vida_project_api.database import get_session
+from vida_project_api.voiceRecording import  verify_voice
 
 
 
@@ -34,3 +35,19 @@ def create_user(user: UserSchema, session=Depends(get_session)):
     session.commit()
     session.refresh(new_user)
     return new_user
+
+@app.post("/authenticate", status_code=200)
+def authenticate_user(user: UserSchema, session=Depends(get_session)):
+    existing_user = session.scalar(select(User).where((User.username == user.username) | (User.email == user.email)))
+    if not existing_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if existing_user.username != user.username or existing_user.email != user.email:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    try:
+        return {"message": verify_voice(user.email), "user_id": existing_user.id}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    return {"message": "Authentication successful", "user_id": existing_user.id}
