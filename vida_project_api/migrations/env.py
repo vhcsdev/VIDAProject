@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from vida_project_api.models import mapper_registry
+from vida_project_api.models import Base
 from vida_project_api.settings import Settings
 
 # this is the Alembic Config object, which provides
@@ -13,8 +13,9 @@ from vida_project_api.settings import Settings
 config = context.config
 config.set_main_option('sqlalchemy.url', Settings().DATABASE_URL)
 
-
-
+# add your model's MetaData object here
+# for 'autogenerate' support
+target_metadata = Base.metadata
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
@@ -24,7 +25,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = mapper_registry.metadata
+# target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

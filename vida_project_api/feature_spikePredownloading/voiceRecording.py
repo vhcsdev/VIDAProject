@@ -8,12 +8,13 @@ import torch
 import torchaudio
 from speechbrain.inference import SpeakerRecognition
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import io
 
 import migration
 
 warnings.filterwarnings("ignore", category=FutureWarning)
+
 
 def recording(filename):  # Da pra tirar o file name?
     format = pyaudio.paInt16
@@ -23,11 +24,13 @@ def recording(filename):  # Da pra tirar o file name?
 
     p = pyaudio.PyAudio()
 
-    stream = p.open(format=format,
-                    channels=channel,
-                    rate=rate,
-                    input=True,
-                    frames_per_buffer=1024)
+    stream = p.open(
+        format=format,
+        channels=channel,
+        rate=rate,
+        input=True,
+        frames_per_buffer=1024,
+    )
 
     frames = []
 
@@ -37,7 +40,10 @@ def recording(filename):  # Da pra tirar o file name?
     for i in range(0, int(rate / 1024 * recordingDuration)):
         data = stream.read(1024)
         frames.append(data)
-        if int(i % ((rate / 1024 * recordingDuration) / recordingDuration)) == 0:
+        if (
+            int(i % ((rate / 1024 * recordingDuration) / recordingDuration))
+            == 0
+        ):
             print(f"{aux}s")
             aux += 1
 
@@ -48,11 +54,11 @@ def recording(filename):  # Da pra tirar o file name?
     p.terminate()
 
     buffer = io.BytesIO()
-    with wave.open(buffer, 'wb') as wf:
+    with wave.open(buffer, "wb") as wf:
         wf.setnchannels(channel)
         wf.setsampwidth(p.get_sample_size(format))
         wf.setframerate(rate)
-        wf.writeframes(b''.join(frames))
+        wf.writeframes(b"".join(frames))
     buffer.seek(0)
     return buffer
 
@@ -67,8 +73,8 @@ def extract_embedding(verification, file_path):
 
 
 verification = SpeakerRecognition.from_hparams(
-                        source="pretrained_models/spkrec",
-                        savedir="pretrained_models/spkrec")
+    source="pretrained_models/spkrec", savedir="pretrained_models/spkrec"
+)
 
 
 def verify_voice(verification, userEmail):
@@ -111,10 +117,11 @@ def similarity(score):
     prediction = score > min_value
     print(f"Score: {score}, Match: {prediction}\n")
 
-    if (prediction):
+    if prediction:
         print("Valid authentication")
     else:
         print("Invalid voice")
+
 
 # similarity(score)
 
