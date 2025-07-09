@@ -10,7 +10,7 @@ const ErrorScreen = ({ onNavigate, data }) => {
         </div>
         
         <header className="error-header">
-          <h1>Oops!</h1>
+          <h1>Ops!</h1>
           <p>{data.message}</p>
         </header>
 
@@ -19,13 +19,13 @@ const ErrorScreen = ({ onNavigate, data }) => {
             className="btn btn-primary"
             onClick={() => onNavigate(data.type === 'login' ? 'login' : 'register')}
           >
-            {data.action || 'Try Again'}
+            {data.action || 'Tentar Novamente'}
           </button>
           <button 
             className="btn btn-secondary"
             onClick={() => onNavigate('welcome')}
           >
-            Go Home
+            Voltar ao Início
           </button>
         </section>
       </div>

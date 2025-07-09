@@ -2,7 +2,7 @@ export const validateEmail = (email) => {
   if (!email) {
     return {
       isValid: false,
-      message: 'Email is required. Please enter your email address.'
+      message: 'Email é obrigatório. Por favor, digite seu endereço de email.'
     }
   }
   
@@ -10,7 +10,7 @@ export const validateEmail = (email) => {
   if (!emailRegex.test(email)) {
     return {
       isValid: false,
-      message: 'Invalid email format. Please use format: example@domain.com'
+      message: 'Formato de email inválido. Use o formato: exemplo@dominio.com'
     }
   }
   
@@ -21,35 +21,35 @@ export const validatePassword = (password) => {
   if (!password) {
     return {
       isValid: false,
-      message: 'Password is required. Please enter your password.'
+      message: 'Senha é obrigatória. Por favor, digite sua senha.'
     }
   }
   
   if (password.length < 8) {
     return {
       isValid: false,
-      message: 'Password must be at least 8 characters long.'
+      message: 'A senha deve ter pelo menos 8 caracteres.'
     }
   }
   
   if (!/(?=.*[a-z])/.test(password)) {
     return {
       isValid: false,
-      message: 'Password must contain at least one lowercase letter.'
+      message: 'A senha deve conter pelo menos uma letra minúscula.'
     }
   }
   
   if (!/(?=.*[A-Z])/.test(password)) {
     return {
       isValid: false,
-      message: 'Password must contain at least one uppercase letter.'
+      message: 'A senha deve conter pelo menos uma letra maiúscula.'
     }
   }
   
   if (!/(?=.*\d)/.test(password)) {
     return {
       isValid: false,
-      message: 'Password must contain at least one number.'
+      message: 'A senha deve conter pelo menos um número.'
     }
   }
   
@@ -60,21 +60,21 @@ export const validateName = (name, fieldName) => {
   if (!name) {
     return {
       isValid: false,
-      message: `${fieldName} is required. Please enter your ${fieldName.toLowerCase()}.`
+      message: `${fieldName} é obrigatório. Por favor, digite seu ${fieldName.toLowerCase()}.`
     }
   }
   
   if (name.length < 2) {
     return {
       isValid: false,
-      message: `${fieldName} must be at least 2 characters long.`
+      message: `${fieldName} deve ter pelo menos 2 caracteres.`
     }
   }
   
-  if (!/^[a-zA-Z\s]+$/.test(name)) {
+  if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(name)) {
     return {
       isValid: false,
-      message: `${fieldName} can only contain letters and spaces.`
+      message: `${fieldName} pode conter apenas letras e espaços.`
     }
   }
   
@@ -85,14 +85,14 @@ export const validateConfirmPassword = (password, confirmPassword) => {
   if (!confirmPassword) {
     return {
       isValid: false,
-      message: 'Please confirm your password.'
+      message: 'Por favor, confirme sua senha.'
     }
   }
   
   if (password !== confirmPassword) {
     return {
       isValid: false,
-      message: 'Passwords do not match. Please make sure both passwords are identical.'
+      message: 'As senhas não coincidem. Certifique-se de que ambas as senhas sejam idênticas.'
     }
   }
   

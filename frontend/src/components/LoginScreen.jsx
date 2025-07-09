@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import FormInput from './FormInput'
 import Toast from './Toast'
 import { validateEmail, validatePassword } from '../utils/validation'
+import { authService } from '../services/api'
 import '../styles/LoginScreen.css'
 
 const LoginScreen = ({ onNavigate }) => {
@@ -11,6 +12,7 @@ const LoginScreen = ({ onNavigate }) => {
   })
   const [errors, setErrors] = useState({})
   const [toast, setToast] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleInputChange = (name, value) => {
     setFormData(prev => ({
@@ -32,7 +34,7 @@ const LoginScreen = ({ onNavigate }) => {
     setTimeout(() => setToast(null), 5000)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     const newErrors = {}
@@ -54,21 +56,30 @@ const LoginScreen = ({ onNavigate }) => {
     setErrors(newErrors)
     
     if (Object.keys(newErrors).length === 0) {
-      // Simulate login logic
-      const isSuccess = Math.random() > 0.3 // 70% success rate for demo
-      
-      if (isSuccess) {
+      setIsLoading(true)
+      try {
+        // Login with API
+        const loginData = {
+          username: formData.email, // Backend expects username (can be email)
+          password: formData.password
+        }
+        
+        const response = await authService.login(loginData)
+        
         onNavigate('success', { 
           type: 'login', 
-          message: 'Login successful! Welcome back.',
+          message: 'Login realizado com sucesso! Bem-vindo de volta.',
           email: formData.email
         })
-      } else {
+      } catch (error) {
+        const errorMessage = error.response?.data?.detail || 'Login falhou. Verifique suas credenciais.'
         onNavigate('error', { 
           type: 'login', 
-          message: 'Invalid credentials. Please check your email and password.',
-          action: 'Try Again'
+          message: errorMessage,
+          action: 'Tentar Novamente'
         })
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -81,10 +92,10 @@ const LoginScreen = ({ onNavigate }) => {
             className="back-btn"
             onClick={() => onNavigate('welcome')}
           >
-            ← Back
+            ← Voltar
           </button>
           <h1>Login</h1>
-          <p>Sign in to your account</p>
+          <p>Entre na sua conta</p>
         </header>
 
         <section className="login-form-section">
@@ -96,35 +107,39 @@ const LoginScreen = ({ onNavigate }) => {
               value={formData.email}
               onChange={handleInputChange}
               error={errors.email}
-              placeholder="Enter your email"
+              placeholder="Digite seu email"
               required
             />
             
             <FormInput
-              label="Password"
+              label="Senha"
               type="password"
               name="password"
               value={formData.password}
               onChange={handleInputChange}
               error={errors.password}
-              placeholder="Enter your password"
+              placeholder="Digite sua senha"
               required
             />
             
-            <button type="submit" className="btn btn-primary btn-full">
-              Login
+            <button 
+              type="submit" 
+              className="btn btn-primary btn-full"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
         </section>
 
         <footer className="login-footer">
           <p>
-            Don't have an account?{' '}
+            Não tem uma conta?{' '}
             <button 
               className="link-btn"
               onClick={() => onNavigate('register')}
             >
-              Register here
+              Registre-se aqui
             </button>
           </p>
         </footer>

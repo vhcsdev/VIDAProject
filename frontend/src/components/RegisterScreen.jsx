@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import FormInput from './FormInput'
 import Toast from './Toast'
 import { validateEmail, validatePassword, validateName, validateConfirmPassword } from '../utils/validation'
+import { userService } from '../services/api'
 import '../styles/RegisterScreen.css'
 
 const RegisterScreen = ({ onNavigate }) => {
@@ -14,6 +15,7 @@ const RegisterScreen = ({ onNavigate }) => {
   })
   const [errors, setErrors] = useState({})
   const [toast, setToast] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleInputChange = (name, value) => {
     setFormData(prev => ({
@@ -35,20 +37,20 @@ const RegisterScreen = ({ onNavigate }) => {
     setTimeout(() => setToast(null), 5000)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     const newErrors = {}
     
     // Validate first name
-    const firstNameValidation = validateName(formData.firstName, 'First name')
+    const firstNameValidation = validateName(formData.firstName, 'Nome')
     if (!firstNameValidation.isValid) {
       newErrors.firstName = firstNameValidation.message
       showToast(firstNameValidation.message)
     }
     
     // Validate last name
-    const lastNameValidation = validateName(formData.lastName, 'Last name')
+    const lastNameValidation = validateName(formData.lastName, 'Sobrenome')
     if (!lastNameValidation.isValid) {
       newErrors.lastName = lastNameValidation.message
       showToast(lastNameValidation.message)
@@ -78,21 +80,31 @@ const RegisterScreen = ({ onNavigate }) => {
     setErrors(newErrors)
     
     if (Object.keys(newErrors).length === 0) {
-      // Simulate registration logic
-      const isSuccess = Math.random() > 0.2 // 80% success rate for demo
-      
-      if (isSuccess) {
+      setIsLoading(true)
+      try {
+        // Register with API
+        const registrationData = {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email
+        }
+        
+        const response = await userService.createUser(registrationData)
+        
         onNavigate('success', { 
           type: 'register', 
-          message: 'Registration successful! Welcome to MyApp.',
-          name: `${formData.firstName} ${formData.lastName}`
+          message: 'Registro realizado com sucesso! Agora configure seu perfil de voz.',
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email
         })
-      } else {
+      } catch (error) {
+        const errorMessage = error.response?.data?.detail || 'Registro falhou. Tente novamente.'
         onNavigate('error', { 
           type: 'register', 
-          message: 'Registration failed. Email might already be in use.',
-          action: 'Try Again'
+          message: errorMessage,
+          action: 'Tentar Novamente'
         })
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -105,34 +117,34 @@ const RegisterScreen = ({ onNavigate }) => {
             className="back-btn"
             onClick={() => onNavigate('welcome')}
           >
-            ← Back
+            ← Voltar
           </button>
-          <h1>Register</h1>
-          <p>Create your new account</p>
+          <h1>Registro</h1>
+          <p>Crie sua nova conta</p>
         </header>
 
         <section className="register-form-section">
           <form className="register-form" onSubmit={handleSubmit}>
             <div className="name-row">
               <FormInput
-                label="First Name"
+                label="Nome"
                 type="text"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleInputChange}
                 error={errors.firstName}
-                placeholder="First name"
+                placeholder="Primeiro nome"
                 required
               />
               
               <FormInput
-                label="Last Name"
+                label="Sobrenome"
                 type="text"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleInputChange}
                 error={errors.lastName}
-                placeholder="Last name"
+                placeholder="Sobrenome"
                 required
               />
             </div>
@@ -144,46 +156,50 @@ const RegisterScreen = ({ onNavigate }) => {
               value={formData.email}
               onChange={handleInputChange}
               error={errors.email}
-              placeholder="Enter your email"
+              placeholder="Digite seu email"
               required
             />
             
             <FormInput
-              label="Password"
+              label="Senha"
               type="password"
               name="password"
               value={formData.password}
               onChange={handleInputChange}
               error={errors.password}
-              placeholder="Create a password"
+              placeholder="Crie uma senha"
               required
             />
             
             <FormInput
-              label="Confirm Password"
+              label="Confirmar Senha"
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleInputChange}
               error={errors.confirmPassword}
-              placeholder="Confirm your password"
+              placeholder="Confirme sua senha"
               required
             />
             
-            <button type="submit" className="btn btn-primary btn-full">
-              Register
+            <button 
+              type="submit" 
+              className="btn btn-primary btn-full"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Criando Conta...' : 'Registrar'}
             </button>
           </form>
         </section>
 
         <footer className="register-footer">
           <p>
-            Already have an account?{' '}
+            Já tem uma conta?{' '}
             <button 
               className="link-btn"
               onClick={() => onNavigate('login')}
             >
-              Login here
+              Entre aqui
             </button>
           </p>
         </footer>

@@ -1,7 +1,8 @@
 {
-  "name": "login-register-app",
+  "name": "vida-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "VIDA Project Frontend - Voice Authentication Interface",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +11,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "axios": "^1.6.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
