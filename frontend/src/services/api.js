@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Configuração base da API
-const API_BASE_URL = import.meta.env.DEV ? '/api' : 'http://localhost:8000';
+const API_BASE_URL = 'http://localhost:8000';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -77,8 +77,9 @@ export const userService = {
   // Criar novo usuário
   async createUser(userData) {
     const response = await api.post('/users/', {
-      name: userData.full_name || userData.name,
-      email: userData.email
+      username: userData.username || userData.email,
+      email: userData.email,
+      password: userData.password
     });
     return response.data;
   },

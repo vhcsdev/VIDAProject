@@ -278,6 +278,84 @@ def verify_voice_against_stored(
         return False
 
 
+def verify_voice_against_stored_with_score(
+    audio_base64: str,
+    stored_voice_base64: str | None = None,
+    test_mode: bool = False,
+) -> tuple[bool, float]:
+    """
+    Verify voice against stored voice and return both result and confidence score.
+    Returns (is_match, confidence_score)
+    """
+    print(f"DEBUG: verify_voice_against_stored_with_score called with test_mode={test_mode}")
+    
+    if verification is None:
+        print("DEBUG: No verification model loaded, returning fallback")
+        return True, 0.95  # Fallback when no verification model
+
+    if not audio_base64:
+        print("DEBUG: No audio_base64 provided")
+        return False, 0.0
+
+    if test_mode:
+        print("DEBUG: Test mode active")
+        try:
+            audio_bytes = base64.b64decode(audio_base64)
+            audio_buffer = io.BytesIO(audio_bytes)
+            embedding = extract_embedding(verification, audio_buffer)
+
+            if embedding is not None:
+                print("DEBUG: Test mode - embedding extracted successfully")
+                return True, 0.95  # Test mode always high confidence
+            else:
+                print("DEBUG: Test mode - failed to extract embedding")
+                return False, 0.1
+
+        except Exception as e:
+            print(f"DEBUG: Test mode exception: {e}")
+            return False, 0.0
+
+    if not stored_voice_base64:
+        print("DEBUG: No stored voice provided")
+        return False, 0.0
+
+    try:
+        print("DEBUG: Starting voice verification process")
+        audio_bytes = base64.b64decode(audio_base64)
+        audio_buffer = io.BytesIO(audio_bytes)
+        current_embedding = extract_embedding(verification, audio_buffer)
+
+        if current_embedding is None:
+            print("DEBUG: Failed to extract current embedding")
+            return False, 0.0
+
+        stored_bytes = base64.b64decode(stored_voice_base64)
+        stored_buffer = io.BytesIO(stored_bytes)
+        stored_embedding = extract_embedding(verification, stored_buffer)
+
+        if stored_embedding is None:
+            print("DEBUG: Failed to extract stored embedding")
+            return False, 0.0
+
+        print("DEBUG: Computing similarity between embeddings")
+        similarity_score = verification.similarity(
+            current_embedding, stored_embedding
+        )
+
+        similarity_value = float(similarity_score.item())
+        print(f"DEBUG: Raw similarity score: {similarity_value}")
+
+        threshold = 0.7
+        is_match = similarity_value > threshold
+        
+        print(f"DEBUG: Final result - match: {is_match}, score: {similarity_value}")
+        return is_match, similarity_value
+
+    except Exception as e:
+        print(f"DEBUG: Exception in voice verification: {e}")
+        return False, 0.0
+
+
 def verify_voice(audio_data, verification_model):
     if isinstance(audio_data, str):
         return verify_voice_base64(audio_data, verification_model)

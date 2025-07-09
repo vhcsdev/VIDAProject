@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import FormInput from './FormInput'
 import Toast from './Toast'
-import { validateEmail, validatePassword, validateName, validateConfirmPassword } from '../utils/validation'
+import { validateEmail, validatePassword, validateConfirmPassword } from '../utils/validation'
 import { userService } from '../services/api'
 import '../styles/RegisterScreen.css'
 
 const RegisterScreen = ({ onNavigate }) => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -42,20 +40,6 @@ const RegisterScreen = ({ onNavigate }) => {
     
     const newErrors = {}
     
-    // Validate first name
-    const firstNameValidation = validateName(formData.firstName, 'Nome')
-    if (!firstNameValidation.isValid) {
-      newErrors.firstName = firstNameValidation.message
-      showToast(firstNameValidation.message)
-    }
-    
-    // Validate last name
-    const lastNameValidation = validateName(formData.lastName, 'Sobrenome')
-    if (!lastNameValidation.isValid) {
-      newErrors.lastName = lastNameValidation.message
-      showToast(lastNameValidation.message)
-    }
-    
     // Validate email
     const emailValidation = validateEmail(formData.email)
     if (!emailValidation.isValid) {
@@ -84,16 +68,15 @@ const RegisterScreen = ({ onNavigate }) => {
       try {
         // Register with API
         const registrationData = {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email
+          username: formData.email,
+          email: formData.email,
+          password: formData.password
         }
         
         const response = await userService.createUser(registrationData)
         
-        onNavigate('success', { 
-          type: 'register', 
-          message: 'Registro realizado com sucesso! Agora configure seu perfil de voz.',
-          name: `${formData.firstName} ${formData.lastName}`,
+        // Navigate to voice registration after successful account creation
+        onNavigate('voice-registration', { 
           email: formData.email
         })
       } catch (error) {
@@ -119,36 +102,12 @@ const RegisterScreen = ({ onNavigate }) => {
           >
             ← Voltar
           </button>
-          <h1>Registro</h1>
-          <p>Crie sua nova conta</p>
+          <h1>Criar Conta</h1>
+          <p>Registre-se para começar a usar o VIDA</p>
         </header>
 
         <section className="register-form-section">
           <form className="register-form" onSubmit={handleSubmit}>
-            <div className="name-row">
-              <FormInput
-                label="Nome"
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleInputChange}
-                error={errors.firstName}
-                placeholder="Primeiro nome"
-                required
-              />
-              
-              <FormInput
-                label="Sobrenome"
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleInputChange}
-                error={errors.lastName}
-                placeholder="Sobrenome"
-                required
-              />
-            </div>
-            
             <FormInput
               label="Email"
               type="email"
@@ -187,7 +146,7 @@ const RegisterScreen = ({ onNavigate }) => {
               className="btn btn-primary btn-full"
               disabled={isLoading}
             >
-              {isLoading ? 'Criando Conta...' : 'Registrar'}
+              {isLoading ? 'Criando conta...' : 'Criar Conta e Registrar Voz'}
             </button>
           </form>
         </section>
@@ -197,9 +156,9 @@ const RegisterScreen = ({ onNavigate }) => {
             Já tem uma conta?{' '}
             <button 
               className="link-btn"
-              onClick={() => onNavigate('login')}
+              onClick={() => onNavigate('voice-login')}
             >
-              Entre aqui
+              Faça login por voz
             </button>
           </p>
         </footer>

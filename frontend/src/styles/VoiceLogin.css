@@ -229,6 +229,24 @@
   cursor: not-allowed;
 }
 
+/* Email input styling */
+.email-input {
+  margin-bottom: 32px;
+  padding: 0 32px;
+}
+
+.email-input .form-input {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.email-input .form-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
 /* Button styles */
 .btn {
   font-family: inherit;
