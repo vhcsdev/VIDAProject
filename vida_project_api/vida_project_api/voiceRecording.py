@@ -14,7 +14,7 @@ from speechbrain.inference import SpeakerRecognition
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-import migration
+import vida_project_api.migration as migration
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
